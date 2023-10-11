@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <div>
-            {{ labelData }}
+        <Toast position="bottom-center" />
+        <div class="my-8">
+            <InputText v-model="newLabel" @keyup.enter="addLabel" />
         </div>
-        <InputText v-model="newLabel" @keyup.enter="addLabel" />
         <div class="card flex flex-wrap gap-2">
-            <Chip v-for="(item,index) in labelData" :key="index" :label="item.name" :removable="item.removable" @remove="(event) => removeLabel(item.name,event)" />
+            <Chip v-for="(item,index) in labelData" :key="index" :label="item.name" :removable="item.removable" @remove="(event) => {removeLabel(item.name); event()}" />
         </div>
         <div class="flex items-center justify-start my-16 grid grid-cols-3 gap-4">
             <MultiSelect v-model="selectedCities" :options="cities" optionLabel="name" placeholder="Şehir Seçiniz"
@@ -52,6 +52,9 @@
 </template>
 
 <script setup>
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
 const newLabel = ref('');
 const addLabel = () => {
     let issetLabel = labelData.value.find((item) => item.name == newLabel.value);
@@ -64,14 +67,11 @@ const addLabel = () => {
         );
     }
     else{
-        alert('Etiket daha önce eklenmiş');
+        toast.add({ severity: 'info', summary: 'Info', detail: 'Daha önce eklenmiş', life: 3000 });
     }
     newLabel.value = ''
 }
-const removeLabel = (data,event) => {
-    console.log(data)
-    event;
-    console.log(labelData.value.filter(item => {item.name != data}))
+const removeLabel = (data) => {
     labelData.value = labelData.value.filter(item => { return item.name != data })
 }
 const labelData = ref([
@@ -90,7 +90,6 @@ const cities = ref([
     { name: 'Istanbul', code: 'IST' },
     { name: 'Paris', code: 'PRS' }
 ]);
-
 const items = ref([
     {
         label: 'Options',

@@ -153,7 +153,74 @@ export default defineNuxtPlugin(nuxtApp => {
               "previousPageLabel": "Önceki Sayfa"
         }
     }
-    nuxtApp.vueApp.use(PrimeVue, { ripple: true , locale: primeVueLanguage });
+    const MyDesignSystem = {
+        button: {
+            root: ({ props, context }) => ({
+                class: [
+                    'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2'
+                ]
+            }),
+            label: ({ props }) => ({
+                class: [
+                    'flex-1',
+                    'duration-200',
+                    'font-bold',
+                    {
+                        'hover:underline': props.link
+                    }
+                ]
+            }),
+            icon: ({ props }) => ({
+                class: [
+                    'mx-0',
+                    {
+                        'mr-2': props.iconPos == 'left' && props.label != null,
+                        'ml-2': props.iconPos == 'right' && props.label != null,
+                        'mb-2': props.iconPos == 'top' && props.label != null,
+                        'mt-2': props.iconPos == 'bottom' && props.label != null
+                    }
+                ]
+            }),
+            badge: ({ props }) => ({
+                class: [{ 'ml-2 w-4 h-4 leading-none flex items-center justify-center': props.badge }]
+            })
+        },
+        inputtext: {
+            root: ({ props, context }) => ({
+                class: [
+                    'm-0 shadow shadow-gray-100'
+                ]
+            })
+        },
+        accordion: {
+            root: 'mb-1',
+            accordiontab: {
+                root: 'mb-1',
+                header: ({ props }) => ({
+                    class: [
+                        ,
+                    ]
+                }),
+                headerAction: ({ context }) => ({
+                    class: [
+                    ]
+                }),
+                headerIcon: 'inline-block mr-2',
+                headerTitle: 'leading-none',
+                content: {
+                    class: [
+                        'shadow'
+                    ]
+                },
+            }
+        }
+      }
+    nuxtApp.vueApp.use(PrimeVue, 
+        { 
+            ripple: true , 
+            locale: primeVueLanguage , 
+            pt: MyDesignSystem 
+        }).use(ToastService);;
     nuxtApp.vueApp.component('Accordion', Accordion);
     nuxtApp.vueApp.component('AccordionTab', AccordionTab);
     nuxtApp.vueApp.component('AutoComplete', AutoComplete);
