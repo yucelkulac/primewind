@@ -1,7 +1,11 @@
 <template>
     <div class="container my-20">
         {{ $t('welcome') }}
-        <Button outlined  @mouseover="refresh" @click="refresh">Tekrar İstek At</Button>
+        <div class="card flex justify-content-center">
+            <Dropdown v-model="selectedLang" :options="languages" optionLabel="name" placeholder="Select a City" class="w-full md:w-14rem" />
+        </div>
+        {{ selectedLang }}
+        <Button outlined  @click="refresh">Tekrar İstek At</Button>
         <div v-if="pending">Yükleniyor</div>
         <div v-else>{{ todosData }}</div>
         <div class="md:grids-col-2 grid md:gap-4 lg:grid-cols-10 xl:grid-cols-11 xl:gap-4">
@@ -1177,6 +1181,24 @@
 </template>
 
 <script setup>
+
+const { locale } = useI18n()
+
+const languages = ref([
+    { name: 'English', value: 'en' },
+    { name: 'Türkçe', value: 'tr' },
+]);
+
+const activeLang = computed(() => {
+    return languages.value.find(item => item.value == locale.value); 
+})
+const selectedLang = ref(activeLang.value);
+
+
+
+watch(selectedLang , (newValue) => {
+    locale.value = newValue.value;
+})
 
 const { data : todosData, pending, error, refresh } = useFetch(`https://jsonplaceholder.typicode.com/posts`);
 
