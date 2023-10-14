@@ -1,5 +1,6 @@
 <template>
     <div class="container my-20">
+        {{ $t('welcome') }}
         <Button outlined  @mouseover="refresh" @click="refresh">Tekrar İstek At</Button>
         <div v-if="pending">Yükleniyor</div>
         <div v-else>{{ todosData }}</div>

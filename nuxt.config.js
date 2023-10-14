@@ -40,6 +40,6 @@ export default defineNuxtConfig({
     transpile: ['nuxt', 'primevue']
   },
   i18n: {
-    /* module options */
+    vueI18n: './i18n.config.js' // if you are using custom path, default 
   }
 })
