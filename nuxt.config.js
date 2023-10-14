@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' }
   },
   modules: [
-    '@nuxtjs/google-fonts'
+    '@nuxtjs/google-fonts',
+    '@nuxtjs/i18n'
   ],
   css: [
     '~/assets/css/main.css',
@@ -38,4 +39,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['nuxt', 'primevue']
   },
+  i18n: {
+    /* module options */
+  }
 })
