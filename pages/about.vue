@@ -5,9 +5,6 @@
             <Dropdown v-model="selectedLang" :options="languages" optionLabel="name" placeholder="Select a City" class="w-full md:w-14rem" />
         </div>
         {{ selectedLang }}
-        <Button outlined  @click="refresh">Tekrar İstek At</Button>
-        <div v-if="pending">Yükleniyor</div>
-        <div v-else>{{ todosData }}</div>
         <div class="md:grids-col-2 grid md:gap-4 lg:grid-cols-10 xl:grid-cols-11 xl:gap-4">
         <div class="space-y-4 lg:col-span-4 xl:col-span-6 xl:space-y-4">
             <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
@@ -1183,6 +1180,11 @@
 <script setup>
 
 const { locale } = useI18n()
+const activeLanguageCookie = useCookie('_lang');
+
+locale.value = activeLanguageCookie.value ? activeLanguageCookie.value.value : 'tr';
+
+console.log(locale.value);
 
 const languages = ref([
     { name: 'English', value: 'en' },
@@ -1190,7 +1192,14 @@ const languages = ref([
 ]);
 
 const activeLang = computed(() => {
-    return languages.value.find(item => item.value == locale.value); 
+    if(activeLanguageCookie.value){
+        console.log(1);
+        return activeLanguageCookie.value
+    }
+    else{
+        console.log(2);
+        return languages.value.find(item => item.value == locale.value); 
+    }
 })
 const selectedLang = ref(activeLang.value);
 
@@ -1198,11 +1207,11 @@ const selectedLang = ref(activeLang.value);
 
 watch(selectedLang , (newValue) => {
     locale.value = newValue.value;
+    activeLanguageCookie.value = selectedLang.value;
+    console.log(activeLanguageCookie.value.value);
 })
 
 const { data : todosData, pending, error, refresh } = useFetch(`https://jsonplaceholder.typicode.com/posts`);
-
-console.log(todosData.value);
 
 </script>
 

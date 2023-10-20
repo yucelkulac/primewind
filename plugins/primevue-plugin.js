@@ -215,12 +215,17 @@ export default defineNuxtPlugin(nuxtApp => {
             }
         }
       }
-    nuxtApp.vueApp.use(PrimeVue, 
-        { 
+    nuxtApp.vueApp
+    .use(
+        PrimeVue, { 
             ripple: true , 
             locale: primeVueLanguage , 
             pt: MyDesignSystem 
-        }).use(ToastService);;
+        })
+    .use(ToastService)
+    .use(ConfirmationService)
+    .use(DialogService);
+    ;
     nuxtApp.vueApp.component('Accordion', Accordion);
     nuxtApp.vueApp.component('AccordionTab', AccordionTab);
     nuxtApp.vueApp.component('AutoComplete', AutoComplete);

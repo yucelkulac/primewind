@@ -6,13 +6,14 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/google-fonts',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxtjs/supabase'
   ],
   css: [
     '~/assets/css/main.css',
     'primevue/resources/themes/lara-light-teal/theme.css',
     'primevue/resources/primevue.min.css',
-    'primeicons/primeicons.css'
+    'primeicons/primeicons.css',
   ],
   postcss: {
     plugins: {
@@ -44,5 +45,10 @@ export default defineNuxtConfig({
     locales: ['en', 'tr'],
     defaultLocale: 'tr',
 
+  },
+  supabase: {
+    url : process.env.SUPABASE_URL,
+    key : process.env.SUPABASE_KEY,
+    redirect : false,
   }
 })
